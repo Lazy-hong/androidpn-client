@@ -171,13 +171,30 @@ public class XmppManager {
 
     public void startReconnectionThread() {
         synchronized (reconnection) {
-            if (!reconnection.isAlive()) {
-                reconnection.setName("Xmpp Reconnection Thread");
-                reconnection.start();
-            }
+        	//修复 如果服务器关闭导致客户端的断线重连线程报错 thread already started的问题  by hong 2016/3/13
+        	if(reconnection!=null){
+        		if(reconnection.isAlive())return;
+        	}
+        	reconnection=new ReconnectionThread(this);
+        	reconnection.setName("Xmpp Reconnection Thread");
+        	reconnection.start();
+        	
+//            if (!reconnection.isAlive()) {
+//                reconnection.setName("Xmpp Reconnection Thread");
+//                reconnection.start();
+//            }
         }
     }
+    /**
+     * 在服务器断掉后,如果不启用此方法，断线重连会报错java.lang.IllegalThreadStateException: Thread already started.
+                   因此先调用该方法stop住线程  add by hong 2016/3/13
+     */
 
+    public void stopReconnectionThread(){
+    synchronized (reconnection) {
+    	reconnection.interrupt();
+    	 }
+    }
     public Handler getHandler() {
         return handler;
     }
