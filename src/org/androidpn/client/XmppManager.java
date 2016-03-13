@@ -255,6 +255,8 @@ public class XmppManager {
         Log.d(LOGTAG, "addTask(runnable)...");
         taskTracker.increase();
         synchronized (taskList) {
+        	Log.e(LOGTAG, "taskList:"+taskList.size());
+        	Log.e(LOGTAG, "running:"+running);
             if (taskList.isEmpty() && !running) {
                 running = true;
                 futureTask = taskSubmitter.submit(runnable);
@@ -310,7 +312,7 @@ public class XmppManager {
                     ProviderManager.getInstance().addIQProvider("notification",
                             "androidpn:iq:notification",
                             new NotificationIQProvider());
-
+                    xmppManager.runTask();
                 } catch (XMPPException e) {
                     Log.e(LOGTAG, "XMPP connection failed", e);
                     xmppManager.dropTask(2);
@@ -468,7 +470,7 @@ public class XmppManager {
                     PacketListener packetListener = xmppManager
                             .getNotificationPacketListener();
                     connection.addPacketListener(packetListener, packetFilter);
-                    connection.sendHeartBeat();
+                    connection.startHeartBeat();
                    
 
                 } catch (XMPPException e) {

@@ -71,7 +71,7 @@ public final class ServiceManager {
 
         props = loadProperties();
         apiKey = props.getProperty("apiKey", "");
-        xmppHost = props.getProperty("xmppHost", "127.0.0.1");
+        xmppHost = props.getProperty("xmppHost", "192.168.1.104");
         xmppPort = props.getProperty("xmppPort", "5222");
         Log.i(LOGTAG, "apiKey=" + apiKey);
         Log.i(LOGTAG, "xmppHost=" + xmppHost);

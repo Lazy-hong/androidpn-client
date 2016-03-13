@@ -20,7 +20,10 @@
 
 package org.jivesoftware.smack;
 
+import org.androidpn.client.LogUtil;
 import org.jivesoftware.smack.packet.Packet;
+
+import android.util.Log;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -229,9 +232,10 @@ class PacketWriter {
         writer.write(stream.toString());
         writer.flush();
     }
-    public void  sendHeartBeat(){
+    public void  startdHeartBeatThread(){
     	new HeartBeatThread().start();
     }
+    //·¢ËÍÐÄÌø
     class HeartBeatThread extends Thread{
     	@Override
     	public void run() {
@@ -239,6 +243,8 @@ class PacketWriter {
     			try {
     				writer.write(" ");
     		        writer.flush();
+    		       Log.e("HeartBeat", "HeartBeat");
+    		       Thread.sleep(10*1000);
 				} catch (Exception e) {
 					 if (!(done || connection.isSocketClosed())) {
 			                done = true;

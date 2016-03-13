@@ -702,8 +702,10 @@ public class XMPPConnection extends Connection {
             throw ex;        // Everything stoppped. Now throw the exception.
         }
     }
-    public void sendHeartBeat(){
-    	packetWriter.sendHeartBeat();
+    public void startHeartBeat(){
+    	if(packetWriter!=null){
+    	  packetWriter.startdHeartBeatThread();
+    	}
     };
     private void initReaderAndWriter() throws XMPPException {
         try {
